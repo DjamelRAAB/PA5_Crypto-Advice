@@ -1,2 +1,3 @@
-# PA5_Crypto-Advice
-5th year project Theme: crypto-currencies  Application name : Crypto-Advice The goal is to extract informations from historical data on crypto-currencies to provide guidance to users.
+# 5th year project
+## Application name : Crypto-Advice 
+The topic of our 5th grade project is about crypto-currencies. The goal of this project is to extract information from historical crypto-currency data to provide advice to users based on the real-time price of crypto-currencies.
