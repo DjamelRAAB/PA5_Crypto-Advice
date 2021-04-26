@@ -17,6 +17,9 @@ How to call the cryptocompare.com API?
         * Real time data : https://min-api.cryptocompare.com/data/price
     * Second are parameters that we provide for the call : fsym=BTC&tsyms=USD
 
-* Full API call for real time data : https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD
+1. Using requests package, example full API call for real time data : https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD
+
+2. Useing function provided by cruptocompare package such as `cryptocompare.get_price('BTC', currency='USD', full=True)
+`
 
 ___
