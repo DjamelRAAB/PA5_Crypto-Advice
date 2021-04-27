@@ -1,5 +1,5 @@
 import requests
-from utils import BASE_URL
+from usefuls import BASE_URL
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import cryptocompare

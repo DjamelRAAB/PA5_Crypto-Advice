@@ -1,7 +1,7 @@
 import pandas as pd
 import requests
 from datetime import datetime
-from utils import BASE_URL, data_to_dataframe, plot_data
+from usefuls import BASE_URL, data_to_dataframe, plot_data
 import cryptocompare
 
 # To delete because cryptocompare.get_historical_price* do the samme job 
