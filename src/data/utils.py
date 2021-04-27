@@ -1,7 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime
-import cryptocompare
 
 BASE_URL = 'https://min-api.cryptocompare.com/data'
 
@@ -37,24 +36,3 @@ def plot_data(df, cryptocurrency, target_currency):
     plt.show()
     
     return None
-
-def get_crypto_infos(path_target):
-    """ Download the information coin list via Cryptocompare API 
-        then transform JSON paylod into Pandas dataframe and save
-        in parquet format.
-    """
-    #data from json is one dictionarie by coin {{coin:{infos}},...}
-    coins_infos =  cryptocompare.get_coin_list()
-
-    # Transpose the dataframe to have coin symbol in index and information in columns
-    df_coins_infos = pd.DataFrame.from_dict(coins_infos).T
-
-    df_coins_infos.to_parquet(path_target,
-                            partition_cols = 'Symbol',
-                            compression='snappy')  
-
-
-if __name__ == "__main__" : 
-
-    # Test save crypto informations in local file system
-    get_crypto_infos('./coins-infos.parquet') 
