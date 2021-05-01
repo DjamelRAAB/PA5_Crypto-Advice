@@ -1,7 +1,8 @@
 import pandas as pd
 import cryptocompare
+from usefuls import save_dataframe_localy
 
-def get_crypto_infos(path_target):
+def get_crypto_infos():
     """ Download the coin list informations via Cryptocompare API 
         then transform JSON paylod into Pandas dataframe and save
         it in parquet format.
@@ -15,11 +16,10 @@ def get_crypto_infos(path_target):
     # Convert each columns to the right type
     df_coins_infos = df_coins_infos.convert_dtypes()
 
-    df_coins_infos.to_parquet(path_target,
-                            partition_cols = 'Symbol',
-                            compression='snappy')  
+    return df_coins_infos
 
-def get_exchanges_infos(path_target):
+    
+def get_exchanges_infos():
     """ Download the exchanges informations via Cryptocompare API 
         then transform JSON paylod into Pandas dataframe and save
         it in parquet format.
@@ -34,11 +34,10 @@ def get_exchanges_infos(path_target):
     df_exchanges_infos = df_exchanges_infos.convert_dtypes()
     df_exchanges_infos = df_exchanges_infos.astype({'GradePointsSplit':'string'})
 
-    df_exchanges_infos.to_parquet(path_target,
-                            partition_cols = 'Name',
-                            compression='snappy')  
+    return df_exchanges_infos
 
-def get_paires_infos(path_target):
+
+def get_paires_infos():
     """ Download the pairs informations via Cryptocompare API 
         then transform JSON paylod into Pandas dataframe and save
         it in parquet format.
@@ -54,18 +53,16 @@ def get_paires_infos(path_target):
     # Convert each columns to the right type
     df_pairs_infos = df_pairs_infos.convert_dtypes()
 
-    df_pairs_infos.to_parquet(path_target,
-                            partition_cols = 'exchange',
-                            compression='snappy')  
+    return df_pairs_infos
 
 
 if __name__ == "__main__" : 
 
     # Test save crypto informations in local file system
-    get_crypto_infos('./coins-infos.parquet') 
+    save_dataframe_localy(get_crypto_infos(), './coins-infos.parquet', 'Symbol')
 
     # Test save exchanges informations in local file system
-    get_exchanges_infos('./exchanges-infos.parquet') 
+    save_dataframe_localy(get_exchanges_infos(), './exchanges-infos.parquet', 'Name')
 
     # Test save exchanges informations in local file system
-    get_paires_infos('./pairs-infos.parquet') 
+    save_dataframe_localy(get_paires_infos(), './pairs-infos.parquet', 'exchange')

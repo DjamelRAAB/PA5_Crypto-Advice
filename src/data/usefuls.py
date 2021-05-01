@@ -36,3 +36,8 @@ def plot_data(df, cryptocurrency, target_currency):
     plt.show()
     
     return None
+
+def save_dataframe_localy(df,path_target, partition_cols = None):
+    df.to_parquet(path_target,
+                partition_cols = partition_cols,
+                compression='snappy')  
