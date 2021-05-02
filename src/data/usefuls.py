@@ -17,7 +17,7 @@ def data_to_dataframe(data):
     return df
 
 def plot_data(df, cryptocurrency, target_currency):
-    # got his warning because combining matplotlib 
+    #  #got his warning because combining matplotlib 
     # and time in pandas converted from epoch to normal date
     # To register the converters:
     # 	>>> from pandas.plotting import register_matplotlib_converters
