@@ -1,3 +1,15 @@
+# Assets files 
+*dates_records*
+
+# Vscode files
+*.vscode*
+
+# Parquet files
+*.parquet*
+
+# Python venv
+*.venv*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
