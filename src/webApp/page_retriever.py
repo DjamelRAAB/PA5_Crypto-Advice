@@ -16,7 +16,7 @@ import base64
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
-from src.webApp.pages import home, profil, news, userguide, trade, feedBack
+from src.webApp.pages import home, profil, news, userguide, trade, feedBack, login
 from src.webApp import global_variables as gv
 from src.webApp import global_components as gc
 
@@ -30,6 +30,10 @@ APP_PAGES = {
         'Label': 'Profil ',
         'URL': '/' + gv.NAME_APPLICATION + '/profil',
         'Content': profil.build_page()},
+    'page_login': {
+        'Label': 'Login ',
+        'URL': '/' + gv.NAME_APPLICATION + '/Login',
+        'Content': login.build_page()},
     'page2': {
         'Label': 'Trade',
         'URL': '/' + gv.NAME_APPLICATION + '/trade',
@@ -82,7 +86,7 @@ def get_page_menu():
     return pages
 
 
-def build_Footer(height: int=100, width: int=240):
+def build_Footer(height: int=100, width: int=275):
     logo_path = os.path.join('src', 'webApp', 'images', 'crypto_advice.png')
 
     footer = html.Footer(children=[
@@ -164,7 +168,6 @@ def build_subfooter():
 def build_sidebar():
     sidebar = html.Div([
         build_Footer(),
-        html.H2(gv.APP_TITLE),
         html.Hr(),
         dbc.Nav(
             get_page_menu(),

@@ -40,7 +40,7 @@ FOOTER_STYLE = {
     "justify-content": "center",
     "vertical-align": "bottom",
     "bottom": 0,
-    'backgroundColor': '#FFFFFF '   
+    'backgroundColor': '#000000 '   
 }
 
 CONTENT_STYLE = {
@@ -49,7 +49,7 @@ CONTENT_STYLE = {
     "padding": "2rem 1rem",
 }
 
-APP_TITLE = 'CRYPTO ADVICE'
+# APP_TITLE = 'CRYPTO ADVICE'
 
 DEFAULT_LAYOUT = {}
 
