@@ -96,7 +96,7 @@ if __name__ == '__main__':
     # ca recupere toute les donnée 
     # get_all_data_by_coin (spark,list_all_asset,"BTC")
 
-    get_all_data_by_coin (spark,list_all_asset,"LTC")
+    get_all_data_by_coin (spark,list_all_asset,"BTC",True)
 
 
 
