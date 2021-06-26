@@ -95,5 +95,5 @@ if __name__ == '__main__':
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(project_id, topic_id)
     future = publisher.publish(topic_path, result.encode(), spam='eggs')
-    future.result()
+    print(future.result())
 
