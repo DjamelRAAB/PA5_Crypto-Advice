@@ -3,7 +3,8 @@
 from flask import Flask, request, jsonify
 from functions import *
 from scrap import *
-
+import json
+import pandas as pd
 
 # Load the trained model from current directory
 #with open('./model_btc.pkl', 'rb') as model_pkl:
@@ -24,15 +25,7 @@ def scraping():
     req=data.to_json(orient="index")
 
 
-
-
-
-
-
-
-
-
-    
+  
     # return the result back
     return req
 

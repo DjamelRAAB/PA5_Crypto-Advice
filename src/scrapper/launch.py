@@ -1,13 +1,17 @@
 from scrap import scrap
 import json
 import pandas as pd
+from google.cloud import pubsub_v1
+import os
+
+project_id = os.environ['project_id']
+topic_id = os.environ['topic_id']
 
 data = scrap(words=["btc","bitcoin"], start_date="2021-06-24", max_date="2021-06-25",interval=1,lang="en",
-	headless=True, resume=False)
+	headless=True, resume=False).to_json(orient="records")
 
-'''
-f = open('juju.json')
-data = json.loads(f.read())
-dataframe = pd.DataFrame.from_dict(data,orient="index")
-
-print(dataframe)'''
+print(data[1:-1])
+publisher = pubsub_v1.PublisherClient()
+topic_path = publisher.topic_path(project_id, topic_id)
+future = publisher.publish(topic_path, data.encode())
+print(future.result())

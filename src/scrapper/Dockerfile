@@ -16,6 +16,8 @@ RUN pip3 --version
 RUN pip install --no-cache-dir --upgrade pip
 COPY . /app
 WORKDIR /app
+ENV project_id=pa5-crypto-advice
+ENV topic_id=trades-flow
+ENV GOOGLE_APPLICATION_CREDENTIALS=./key-file.json
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8000
-CMD [ "python3", "./app.py" ]

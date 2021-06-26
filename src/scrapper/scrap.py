@@ -108,7 +108,7 @@ def scrap(start_date, max_date, words=None, interval=1, lang=None,
                 end_date = end_date + datetime.timedelta(days=interval)
 
     data = pd.DataFrame(data, columns = ['IdName', 'UserName', 'time', 'Text', 'Embtext', 'Emojis','NbComments', 'NbLikes', 'NbRetweets','LinkImage', 'UrlTweet','sentiment_analysis'])
-
+    data["coin"] = words[0]
 
     # close the web driver
     driver.close()

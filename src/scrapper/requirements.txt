@@ -6,3 +6,4 @@ urllib3==1.25.9
 numpy==1.19.5
 textblob==0.15.3
 flask==1.1.2
+google-cloud-pubsub
