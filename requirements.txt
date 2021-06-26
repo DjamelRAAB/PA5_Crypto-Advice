@@ -17,3 +17,5 @@ Flask-Compress
 json5
 jsonschema
 numpydoc
+mysql-connector-python
+configparser
