@@ -29,7 +29,6 @@ def get_exchange_cypto_price(cryptocurrency='BTC', currency='USD', exchange=''):
         data = -1
 
     return data  
-
 ##### GET CURRENT PRICE DATA USING cryptocompare PACKAGE
 def get_crypto_price(cryptocurrency,currency):
     """ Wrapper route /data/price of cryptocompare API 
@@ -68,7 +67,6 @@ def func_animation(cryptocurrency, currency):
     """ Wrapper of animation function
     """
     return FuncAnimation(plt.gcf(), animate, fargs=(cryptocurrency, currency,), interval=1000)
-
 
 if __name__ == "__main__" : 
 

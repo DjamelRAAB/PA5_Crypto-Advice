@@ -68,8 +68,11 @@ def get_data(page, save_images = False, save_dir = None):
         elements = page.find_elements_by_xpath('.//div[2]/div[2]//img[contains(@src, "https://pbs.twimg.com/")]')
         for element in elements:
         	image_links.append(element.get_attribute('src'))
+
     except:
         image_links = []
+
+    image_links = 'link: '.join(image_links)
 
     #if save_images == True:
     #	for image_url in image_links:
