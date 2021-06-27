@@ -10,10 +10,6 @@ def data_to_dataframe(data):
     #data from json is in array of dictionaries
     df = pd.DataFrame.from_dict(data)
     
-    # time is stored as an epoch, we need normal dates
-    df['time'] = pd.to_datetime(df['time'], unit='s')
-    df.set_index('time', inplace=True)
-
     return df
 
 def plot_data(df, cryptocurrency, target_currency):
