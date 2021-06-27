@@ -21,4 +21,4 @@ ENV topic_id=trades-flow
 ENV GOOGLE_APPLICATION_CREDENTIALS=./key-file.json
 RUN pip3 install --no-cache-dir -r requirements.txt
 EXPOSE 8000
-CMD [ "python ./launch.py" ]
+CMD "python ./launch.py"
