@@ -28,13 +28,14 @@ if __name__ == "__main__" :
 	today=datetime.datetime.today()
 
 	data = get_data(today,"BTC")
-	dictionary = ast.literal_eval(data)
+	print(data)
+	dictionary = json.loads(data)
 	for elt in dictionary :
 		future = publisher.publish(topic_path, json.dumps(elt).encode())
 		print(future.result())
 
 	data = get_data(today,"ETH")
-	dictionary = ast.literal_eval(data)
+	dictionary = json.loads(data)
 	for elt in dictionary :
 		future = publisher.publish(topic_path, json.dumps(elt).encode())
 		print(future.result())
