@@ -72,8 +72,6 @@ def get_data(page, save_images = False, save_dir = None):
     except:
         image_links = []
 
-    image_links = 'link: '.join(image_links)
-
     #if save_images == True:
     #	for image_url in image_links:
     #		save_image(image_url, image_url, save_dir)

@@ -23,7 +23,7 @@ data = scrap(words=key_words_btc, start_date=today , max_date=tomorow ,interval=
 data["time"]= data["time"].apply(lambda x: x[:10])
 data = data.to_json(orient="records")
 
-dictionary = ast.literal_eval(data)
+dictionary = json.loads(data)
 for elt in dictionary :
 	future = publisher.publish(topic_path, json.dumps(elt).encode())
 	print(future.result())
@@ -33,7 +33,7 @@ for elt in dictionary :
 data = scrap(words=key_words_eth, start_date=today , max_date=tomorow ,interval=1,lang="en",headless=True, resume=False)
 data["time"]= data["time"].apply(lambda x: x[:10])
 data = data.to_json(orient="records")
-dictionary = ast.literal_eval(data)
+dictionary = json.loads(data)
 for elt in dictionary :
 	future = publisher.publish(topic_path, json.dumps(elt).encode())
 	print(future.result())
