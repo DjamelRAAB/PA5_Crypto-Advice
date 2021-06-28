@@ -1,6 +1,6 @@
 # Terraform bin and log
-*.terraform/*
-*.tfstate*
+**.terraform/**
+**.tfstate**
 
 # Assets files 
 *dates_records*
