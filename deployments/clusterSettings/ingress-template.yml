@@ -8,38 +8,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /*
+      - path: /cryptoadvice/*
         backend:
-          serviceName: web
-          servicePort: 8080
-      - path: /v2/*
-        backend:
-          serviceName: web2
+          serviceName: app
           servicePort: 8080
       - path: /cryptoadvice/api/*
         backend:
           serviceName: api
           servicePort: 8080
-# spec:
-#   backend:
-#     serviceName: api
-#     servicePort: 8080
-
-# apiVersion: networking.k8s.io/v1beta1
-# kind: Ingress
-# metadata:
-#   name: cryptoadvice-ingress
-#   annotations:
-#     kubernetes.io/ingress.class: gce
-# spec:
-#   rules:
-#   - http:
-#       paths:
-#       - path: /cryptoadvice/api
-#         backend:
-#           serviceName: api
-#           servicePort: 8080
-      # - path: /v2/*
-      #   backend:
-      #     serviceName: web2
-      #     servicePort: 8080
