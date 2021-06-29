@@ -10,6 +10,7 @@ from flask import request
 import json
 import src.webApp.global_variables as gv
 import dash
+import plotly.graph_objects as go
 import dash_core_components as dcc
 import plotly.express as px
 import pandas as pd
@@ -21,14 +22,23 @@ with open(PATH_LAST_CO, 'w', encoding='utf-8') as track_file:
 
 
 def build_page():
-    df = pd.DataFrame({
-    "Fruit": ["Apples", "Oranges", "Bananas", "Apples", "Oranges", "Bananas"],
-    "Amount": [4, 1, 2, 2, 4, 5],
-    "City": ["SF", "SF", "SF", "Montreal", "Montreal", "Montreal"]
-    })
+    df = pd.read_csv("histo_btc.csv") 
+    df['time']= pd.to_datetime(df.time,unit='s')
 
-    fig = px.bar(df, x="Fruit", y="Amount", color="City", barmode="group")
-
+    fig = go.Figure()
+    fig.add_trace(
+        go.Candlestick(x=df['time'],
+                    open=df['addresses_new_non_zero_count'], high=df['addresses_active_count'],
+                    low=df['addresses_new_non_zero_count'], close=df['addresses_new_non_zero_count'])
+    )
+    fig.add_trace(
+        go.Scatter(
+        x=df['time'],
+        y=df['addresses_new_non_zero_count'],
+        mode='lines+markers',
+        )
+    )
+                       
     children=([
         html.P(
             "Page d'accueil (pop-up indicant de laisser un feedback"

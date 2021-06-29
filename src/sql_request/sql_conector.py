@@ -5,6 +5,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 import time
 import os 
+
 def init() :
 
     config = configparser.ConfigParser()
@@ -18,8 +19,6 @@ def init() :
     logger.addHandler(file_handler)
 
     return config,logger
-
-
 
 def create_connection(host_name, user_name, user_password,config,logger):
     connection = None
@@ -36,9 +35,6 @@ def create_connection(host_name, user_name, user_password,config,logger):
 
     return connection
 
-
-
-
 def init_connection(config,logger):
     
     connection = create_connection(config['SQL_LOGIN']['machine'], config['SQL_LOGIN']['user'], config['SQL_LOGIN']['password'],config,logger)
@@ -53,7 +49,6 @@ def init_connection(config,logger):
         connection = None
 
     return connection
-
 
 def add_user(nom,prenom,email,password,date_naissance,handicap):
     config,logger = init()
@@ -78,8 +73,6 @@ def add_user(nom,prenom,email,password,date_naissance,handicap):
     connection.commit()
 
     return result
-
-
 
 def add_admin(nom,prenom,email,password,date_naissance):
     config,logger = init()
@@ -133,8 +126,6 @@ def get_user(email):
 
 
     return result
-
-
 
 def add_entry(email,input):
     config,logger = init()
