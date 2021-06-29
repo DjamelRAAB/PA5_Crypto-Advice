@@ -1,9 +1,0 @@
-selenium==3.141.0
-unicodecsv==0.14.1
-pandas==1.0.5
-chromedriver-autoinstaller==0.2.2
-urllib3==1.25.9
-numpy==1.19.5
-textblob==0.15.3
-flask==1.1.2
-google-cloud-pubsub
