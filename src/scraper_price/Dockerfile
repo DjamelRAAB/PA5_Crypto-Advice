@@ -8,3 +8,4 @@ RUN pip install --no-cache-dir --upgrade pip \
     && pip install -r /app/requirements.txt \
     && chmod -R 755 /app 
 
+ENTRYPOINT ["/app/venv-entrypoint.sh"]
