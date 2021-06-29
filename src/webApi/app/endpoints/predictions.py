@@ -7,6 +7,7 @@ class OutPredictPrice(BaseModel):
     date : str
     coin : str 
     price : int
+    currrency : str = 'USD'
 
 
 class OutPredictSentiment(BaseModel): 
