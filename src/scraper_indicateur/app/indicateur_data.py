@@ -94,6 +94,21 @@ if __name__ == '__main__':
     result = get_all_data_by_coin (spark,list_all_asset,"BTC",True)
     publisher = pubsub_v1.PublisherClient()
     topic_path = publisher.topic_path(project_id, topic_id)
-    future = publisher.publish(topic_path, result.encode(), spam='eggs')
+    future = publisher.publish(topic_path, result.encode())
     print(future.result())
 
+
+    # pour l'historique 
+    # result = get_all_data_by_coin (spark,list_all_asset,"BTC").toJSON().collect()
+    # dictionary = result
+
+    # for elt in dictionary:
+    #     future = publisher.publish(topic_path, json.dumps(elt).encode())
+    #     print(future.result())
+    
+    # result = get_all_data_by_coin (spark,list_all_asset,"ETH").toJSON().collect()
+    # dictionary = result
+    # for elt in dictionary :
+    #     print(elt)
+    #     future = publisher.publish(topic_path, elt.encode())
+    #     print(future.result())
