@@ -4,19 +4,9 @@ from pydantic import BaseModel
 from typing import Optional
 
 class OutPredictPrice(BaseModel): 
-    IdName: Optional[str] = None
-    UserName : Optional[str] = None
-    time : Optional[str] = None
-    Text : Optional[str] = None
-    Embtext : Optional[str] = None
-    Emojis : Optional[str] = None
-    NbComments :Optional[int] = None
-    NbLikes :Optional[int] = None 
-    NbRetweets : Optional[int] = None
-    LinkImage : Optional[str] = None
-    UrlTweet : Optional[str] = None
-    sentiment_analysis : Optional[float] = None
-    coin :str
+    date : str
+    coin : str 
+    price : int
 
 
 class OutPredictSentiment(BaseModel): 
@@ -26,12 +16,14 @@ class OutPredictSentiment(BaseModel):
     number_tweets_24h : Optional[int] = None
 
 
-def prediction_price(coin : str, currency : str, bqclient, bqstorageclient) :
+def prediction_price(bqclient, bqstorageclient, coin : str = 'BTC') :
     # Download query results.
-    query_string = """
-    SELECT * 
-    FROM `pa5-crypto-advice.pa5_dataset.coin_tweets` 
-    LIMIT 10
+    query_string = f"""
+    SELECT time as date, coin , price  
+    FROM `pa5-crypto-advice2.pa5_dataset.coin_prices_predicted`
+    WHERE coin = '{coin}'
+    ORDER BY time DESC
+    LIMIT 1
     """
     dataframe = (
         bqclient.query(query_string)
@@ -42,15 +34,16 @@ def prediction_price(coin : str, currency : str, bqclient, bqstorageclient) :
 
 def prediction_sentiment(bqclient, bqstorageclient, coin : str = 'BTC') :
     # Download query results.
-    today = today = date.today()
-    time = datetime(today.year,today.month,today.day).strftime('%Y-%m-%d %H:%M:%S UTC')
+    # today = today = date.today()
+    # time = datetime(today.year,today.month,today.day).strftime('%Y-%m-%d %H:%M:%S UTC')
     query_string = f"""
-    SELECT avg(sentiment_analysis) as  sentiment_24h, count(*) as number_tweets_24h
+    SELECT time as date , avg(sentiment_analysis) as  sentiment_24h, count(*) as number_tweets_24h
     FROM `pa5-crypto-advice2.pa5_dataset.coin_tweets`
     WHERE coin = '{coin}'
-    AND time = '{time}'
     AND sentiment_analysis != 0.0
-    GROUP BY coin, time;
+    GROUP BY coin, time
+    ORDER BY time DESC
+    LIMIT 1;
     """
     dataframe = (
         bqclient.query(query_string)
@@ -60,6 +53,5 @@ def prediction_sentiment(bqclient, bqstorageclient, coin : str = 'BTC') :
     data = json.loads(dataframe.to_json(orient = 'records'))
     result = data[0] if len(data)>0 else {}
     result['coin'] =coin 
-    result['date'] = time
     return result  
 

@@ -29,16 +29,16 @@ async def public():
     return {"status":200}
 
 @app.get(f"{BASE_URL}prediction/price" , response_model = OutPredictPrice)
-async def predict_price(coin : str, currency : Optional[str] = None):
-    return prediction_price(coin, currency, bqclient= BQ_CLIENT, bqstorageclient= BQ_STORAGE_CLIENT)
+async def predict_price(coin : str):
+    return prediction_price(coin = coin, bqclient= BQ_CLIENT, bqstorageclient= BQ_STORAGE_CLIENT)
 
 @app.get(f"{BASE_URL}prediction/sentiment", response_model = OutPredictSentiment)
 async def predict_sentiment(coin : str):
     return prediction_sentiment(coin = coin, bqclient= BQ_CLIENT, bqstorageclient= BQ_STORAGE_CLIENT)
 
 @app.get(f"{BASE_URL}metrics", response_model = OutCoinMetrics)
-async def coin_metrics(coin : str, currency : Optional[str] = None):
-    return get_coin_metrics (coin= coin , currency= currency , bqclient= BQ_CLIENT, bqstorageclient= BQ_STORAGE_CLIENT)
+async def coin_metrics(coin : str):
+    return get_coin_metrics (coin= coin, bqclient= BQ_CLIENT, bqstorageclient= BQ_STORAGE_CLIENT)
 
 @app.get(f"{BASE_URL}tweets", response_model = OutTweetMetrics)
 async def tweets_metrics(coin : str):
