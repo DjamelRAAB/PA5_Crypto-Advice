@@ -1,16 +1,16 @@
 apiVersion: batch/v1beta1
 kind: CronJob
 metadata:
-  name: prediction
+  name: scrapermetrics
 spec:
-  schedule: "* 2 * * *"
+  schedule: "* 1 * * *"
   jobTemplate:
     spec:
       template:
         spec:
           containers:
-          - name: prediction
-            image: gcr.io/pa5-crypto-advice2/cryptoadvice-prediction:latest
+          - name: scrapermetrics
+            image: gcr.io/pa5-crypto-advice2/cryptoadvice-scraper-metrics:latest
             imagePullPolicy: IfNotPresent
             volumeMounts:
               - mountPath: /conf
@@ -18,13 +18,9 @@ spec:
                 readOnly: true 
               - mountPath: /tmp
                 name: cache-volume
-              - mountPath: /models
-                name: models-volume
           restartPolicy: OnFailure
           volumes:
           - name: cache-volume
-            emptyDir: {}
-          - name: models-volume
             emptyDir: {}
           - name: confs
             projected:

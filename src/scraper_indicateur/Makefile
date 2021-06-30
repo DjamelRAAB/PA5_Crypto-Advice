@@ -2,14 +2,14 @@ CURRENT_PATH := $(shell pwd)
 SHELL := /bin/bash
 VENV := .venv
 BIN=$(CURRENT_PATH)/$(VENV)/bin/
-IMAGE := cryptoadvice-scraper-indicateur
+IMAGE := cryptoadvice-scraper-metrics
 REL := 0.0.1
 TAG := $(REL)
 DOCKER_REGISTRY := localhost
 PA5_REGISTRY := gcr.io/pa5-crypto-advice2
 IMAGE_VERSION := latest
 FROM_IMAGE := $(IMAGE):$(IMAGE_VERSION)
-APPLICATION_NAME := cryptoadvice-scraper-indicateur
+APPLICATION_NAME := cryptoadvice-scraper-metrics
 
 build:
 	docker build --rm=true -t $(DOCKER_REGISTRY)/$(IMAGE):$(TAG) .
