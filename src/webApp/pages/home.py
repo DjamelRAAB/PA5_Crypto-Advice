@@ -4,6 +4,7 @@ import dash_html_components as html
 import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 from dash import callback_context
+from dash_html_components.Br import Br
 from app import app
 from datetime import datetime
 from flask import request
@@ -14,36 +15,81 @@ import plotly.graph_objects as go
 import dash_core_components as dcc
 import plotly.express as px
 import pandas as pd
-
-
+from src.sql_request.sql_conector import *
+from src.webApp import global_components as gc
+import hashlib
+import os
+import base64
 PATH_LAST_CO = "./src/webApp/assets/dates_records.json"
 with open(PATH_LAST_CO, 'w', encoding='utf-8') as track_file:
     json.dump(dict(), track_file)
 
 
-def build_page():
-    df = pd.read_csv("histo_btc.csv") 
-    df['time']= pd.to_datetime(df.time,unit='s')
+def build_Footer(height: int=100, width: int=240):
 
-    fig = go.Figure()
-    fig.add_trace(
-        go.Candlestick(x=df['time'],
-                    open=df['addresses_new_non_zero_count'], high=df['addresses_active_count'],
-                    low=df['addresses_new_non_zero_count'], close=df['addresses_new_non_zero_count'])
-    )
-    fig.add_trace(
-        go.Scatter(
-        x=df['time'],
-        y=df['addresses_new_non_zero_count'],
-        mode='lines+markers',
-        )
-    )
-                       
-    children=([
-        html.P(
-            "Page d'accueil (pop-up indicant de laisser un feedback"
-            "apparaît une fois toutes les 2h, par utilisateur)..."
-            "ne fonctionne pas optimalement en mode debug (ecriture fichier local -> refresh)"),
+    logo_path = os.path.join('src', 'webApp', 'images', 'Euro-EUR-icon.png')
+    logo_path1 = os.path.join('src', 'webApp', 'images', 'Ethereum-ETH-icon.png')
+    logo_path2 = os.path.join('src', 'webApp', 'images', 'Litecoin-LTC-icon.png')
+
+    result = dbc.Container(id='image_acceuil', children=[html.Div([
+        html.Img(src=app.get_asset_url('bitcoin.png'), style={
+            'width': '100',
+            'height': '200',
+            'lineHeight': '60px',
+            'margin': '10px'
+        }, ),
+        html.Img(src=app.get_asset_url('Ethereum-ETH-icon.png'), style={
+            'width': '100',
+            'height': '200',
+            'lineHeight': '60px',
+            'margin': '10px'
+        },),
+        html.Img(src=app.get_asset_url('Litecoin-LTC-icon.png')),
+        html.Img(src=app.get_asset_url('Euro-EUR-icon.png')),
+        html.Img(src=app.get_asset_url('Dollar-USD-icon.png')),
+    ], style={'columnCount': 5})])
+    return result
+
+
+def build_page():
+    logo_path = os.path.join('src', 'webApp', 'assets', 'mm3.png')
+    contains_login = html.Div([
+        dbc.Container(id='loginType', children=[
+            dcc.Input(
+                placeholder='Enter your username',
+                type='text',
+                id='usernameBox',
+                className='form-control',
+                n_submit=0,
+            ),
+            html.Br(),
+            dcc.Input(
+                placeholder='Enter your password',
+                type='password',
+                id='passwordBox',
+                className='form-control',
+                n_submit=0,
+            ),
+            html.Br(),
+            html.Button(
+                children='Login',
+                n_clicks=0,
+                type='submit',
+                id='loginButton',
+                className='btn btn-success  '
+            ),
+            html.Button(
+                children='subscrib',
+                n_clicks=0,
+                type='submit',
+                id='subscrib',
+                className='btn btn-primary '
+            ),
+            html.Br(),
+            html.Div(id="result_connection"),
+        ], className='form-group'),
+    ])
+    children = ([
         dbc.Modal([
             dbc.ModalHeader(children="Suivi des usages / FEEDBACK NEEDED !"),
             dbc.ModalBody(children=[
@@ -65,13 +111,45 @@ def build_page():
             centered=True,
             is_open=True
         ),
-        dcc.Graph(
-        id='example-graph',
-        figure=fig
-        )
+        contains_login,
+        html.Br(),
+        html.Br(),
+        html.Div(id="gfhgf", children=[
+            # html.H4("""Bienvenue sur cryptocompare l'application qui vous permet d'optimiser vos investissements en crypto monnaie.
+            # Souscrivez à l'offre premium pour un accès illimité à toutes les fonctionnalités de trading et prédiction pour seulement 19,99 $ par mois.
+            # """),
+            # html.Img(src=app.get_asset_url('mm3.png')),
+            html.Footer(children=[
+                    gc.get_image(logo_path, 710, 840),
+            ],
+                style=gv.FOOTER_STYLE)
+        ]),
+        html.Br(),
+        html.Br(),
+
+        build_Footer(),
+
     ])
 
-    app.layout = html.Div(style={'padding': '20px'}, children=children)
+    # app.layout = html.Div(style={'padding': '20px'}, children=children)
+    @ app.callback(
+        Output("result_connection", "children"),
+        Input("loginButton", "n_clicks"),
+        State("usernameBox", "value"),
+        State("passwordBox", "value"),
+    )
+    def log(loginButton, usernameBox, passwordBox):
+        if loginButton == 1:
+            print(hashlib.sha256(passwordBox.encode()).hexdigest())
+            mail, password = get_user(usernameBox)
+            print()
+            if hashlib.sha256(passwordBox.encode()).hexdigest() == password:
+                loginButton = 0
+                return "Connection reussie "
+            else:
+                return "Echec de Connection mail ou mots de passe incorect"
+        return None
+
     @ app.callback(
         Output(component_id="warning-home", component_property="is_open"),
         [Input(component_id="url", component_property="pathname"),
@@ -97,7 +175,7 @@ def build_page():
         if pathname == '/' + gv.NAME_APPLICATION + '/':
             dt = datetime.now()
             dt_string = dt.strftime("%d/%m/%Y %H:%M:%S")
-            user = 'C48679' #request.headers["Oidc-Claim-Sub"]
+            user = 'C48679'  # request.headers["Oidc-Claim-Sub"]
             with open(PATH_LAST_CO, 'r', encoding='utf-8') as track_file:
                 last_co = json.load(track_file)
                 if user in last_co.keys():
@@ -122,4 +200,5 @@ def build_page():
                 new_is_open = not is_open
 
         return new_is_open
-    return app.layout
+
+    return dbc.Container(id="page", children=children)

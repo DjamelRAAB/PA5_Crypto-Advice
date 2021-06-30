@@ -54,22 +54,22 @@ N_CLICKS = 0
 def build_page():
     global CRYPTOCURRENCY, CURRENCY, EXCHANGE, DURATION, DF_TRAD_DATA
     
-    @app.callback(
-        Output('coins-dropdown', 'options'),
-        Input('exchange-dropdown', 'value'))
-    def set_coin_list(selected_exchnage):
-        fsym = ["btc","ETH"]
-        label_coins = [{'label': symbol , 'value': symbol} for symbol in fsym]
-        return label_coins
+    # @app.callback(
+    #     Output('coins-dropdown', 'options'),
+    #     Input('exchange-dropdown', 'value'))
+    # # def set_coin_list(selected_exchnage):
+    # #     fsym = ["btc","ETH"]
+    # #     label_coins = [{'label': symbol , 'value': symbol} for symbol in fsym]
+    # #     return label_coins
 
-    @app.callback(
-        Output('currency-dropdown', 'options'),
-        Input('exchange-dropdown', 'value'),
-        Input('coins-dropdown', 'value'))
-    def set_currency_list(selected_exchnage, cryptocurrency):
-        tsym = ["btc","ETH"]
-        currencies = [{'label': currency , 'value': currency} for currency in tsym]
-        return currencies
+    # @app.callback(
+    #     Output('currency-dropdown', 'options'),
+    #     Input('exchange-dropdown', 'value'),
+    #     Input('coins-dropdown', 'value'))
+    # def set_currency_list(selected_exchnage, cryptocurrency):
+    #     tsym = ["btc","ETH"]
+    #     currencies = [{'label': currency , 'value': currency} for currency in tsym]
+    #     return currencies
     
     @app.callback(
         Output('graph-candles', 'figure'),
@@ -87,14 +87,9 @@ def build_page():
         DF_TRAD_DATA =  pd.DataFrame.from_records(data)
         DF_TRAD_DATA.time = DF_TRAD_DATA.time.apply(lambda row : datetime.fromtimestamp(row))
         
-        # else :  
-        #     to_timestamp = datetime.now()
-        #     data = historical_function(duration)(cryptocurrency, currency, exchange=exchange, limit=1, toTs=to_timestamp)
-        #     df = pd.DataFrame.from_records(data[1:])
-        #     df.time = df.time.apply(lambda row : datetime.fromtimestamp(row))
-        #     DF_TRAD_DATA = DF_TRAD_DATA[1:].append(df)
         
-        fig_candles = go.Figure(data=[go.Candlestick(x=DF_TRAD_DATA['time'],
+        fig_candles = go.Figure(
+            data=[go.Candlestick(x=DF_TRAD_DATA['time'],
             open=DF_TRAD_DATA['open'], high=DF_TRAD_DATA['high'],
             low=DF_TRAD_DATA['low'], close=DF_TRAD_DATA['close'])
             ])
@@ -110,8 +105,6 @@ def build_page():
             title=f"{cryptocurrency} price from {exchange}",
             xaxis_title="Time",
             yaxis_title=f"Price {currency}",
-            # xaxis=dict(range=[min(DF_TRAD_DATA.time), max(DF_TRAD_DATA.time)]),
-            # yaxis=dict(range=[min(DF_TRAD_DATA.close), max(DF_TRAD_DATA.close)])
         )
         fig_series.update_xaxes(rangeslider_visible=True)
 
@@ -131,21 +124,13 @@ def build_page():
 
         return interval
     
-    #df_coins = pd.read_parquet('/home/raab/5GES/S2/PA5/PA5_Crypto-Advice/coins-infos.parquet', columns=['FullName','Symbol'])
-    df_exchanges = pd.DataFrame(["binance"])
-
-    #label_coins = [{'label': full_name , 'value': symbol} for full_name, symbol in zip(df_coins.FullName,df_coins.Symbol)]
-    label_exchanges = [{"binance","bnb"} ]
-
-    #del(df_coins)
-    del(df_exchanges)
 
     children=([
         html.Div([
             html.Label('Exchange'),
             dcc.Dropdown(
                 id='exchange-dropdown',
-                options=label_exchanges,
+                options=[{'label': EXCHANGE , 'value': EXCHANGE}],
                 value=EXCHANGE
             ),
             html.Label('Crypto currency'),
@@ -174,7 +159,7 @@ def build_page():
             ),
             html.Button(id='submit-button-state', n_clicks=0, children='Submit'),
 
-        ]), # , style={'columnCount': 2}
+        ]), 
         html.Div([
             html.Div([
                 dcc.Graph(id='graph-series', animate=True),
