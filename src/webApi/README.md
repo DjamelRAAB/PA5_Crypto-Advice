@@ -1,5 +1,8 @@
 # CryptoAdvice API 
-Ce projet est un template de conterisation d'une api, et publication de l'image dans la registry GCP du PA5. 
+Le API REST est développé avec le framwork python (FastAPI).
+Elle permet d'exposer les données resultat des diférents modéles du projet crypto-advice (prediction de prix, sentiment analysis des tweets, metrics de blackchain ..)
+
+Ce projet comprends aussi un template de conterisation pour cette api, et publication de l'image dans la registry GCP du PA5. 
 
 ## Commandes
 1. Run de l'api en local : 
