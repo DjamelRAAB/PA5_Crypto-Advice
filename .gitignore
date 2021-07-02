@@ -1,8 +1,15 @@
+
+# Terraform bin and log
+**iac/.terraform/**
+**.tfstate**
+**key-file** 
+
 # Log repo 
 *logs*
 
 # Service account credentials
 *key-file*
+
 
 # Assets files 
 *dates_records*
