@@ -9,11 +9,13 @@ In this project the API serves the data in JSON format and the actual useful pay
 The response of our api can be used for time series analysis, price alarming script and even for creation of trading bot.
 
 ### Call the API to get data
+You can see the doc of this API in http://cryptoadvice.com/api/doc
+
 How to call our API? 
 
 * The API call consists of three parts,
     * First is baseurl :
-        * http://cryptoadvice.com/
+        * http://cryptoadvice.com/api
     * Second are the route :
         * /prediction/price
         * /prediction/sentiment
