@@ -1,4 +1,4 @@
 
-#output "azurerm_sql_server_domain_name" {
-#    value = module.database.azurerm_sql_server_domain_name 
-#}
+# output "google_bigquery_table_project" {
+#  value = google_bigquery_table.table.project
+# }

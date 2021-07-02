@@ -10,7 +10,7 @@ In this project you have the infrastructure as code project that allow you to de
 * Set terraform variable credentials on set the GOOGLE_APPLICATION_CREDENTIALS variable envirenement that is used by terraform client 
 	* `export GOOGLE_APPLICATION_CREDENTIALS=.key-file.json `
 
-* In GCP enable Cloud Resource Manager API for the project  Pub/Sub API DataFlow API 
+* In GCP enable Cloud Resource Manager API for the project and other API that is used like   Pub/Sub API, DataFlow API, GKE API, BigQuery API. 
 
 ## Deploy Infrastructure
 * Initialize Terraform :
@@ -21,5 +21,3 @@ In this project you have the infrastructure as code project that allow you to de
 
 * Run deployment : 
 	* `terraform apply`
-
-

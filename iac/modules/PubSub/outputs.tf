@@ -1,4 +1,3 @@
-
-#output "azurerm_app_service_Backend_name" {
-#  value = azurerm_app_service.Backend.name
+#output "google_pubsub_topic_name" {
+#  value = google_pubsub_topic.topic_trades.name
 #}

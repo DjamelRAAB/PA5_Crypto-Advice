@@ -46,9 +46,15 @@ variable "bucket_folders" {
 }
 
 
-variable "local_path" {
+variable "local_data" {
   description = "Local storage path."
   type        = string
   default     = "/home/raab/PA5/Historical-Data"
 }
 
+
+variable "local_models" {
+  description = "Local storage path."
+  type        = string
+  default     = "/home/raab/PA5/Models"
+}

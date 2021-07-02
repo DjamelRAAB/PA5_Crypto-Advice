@@ -29,9 +29,9 @@ module "cloudstorage" {
 module "bigquery" {
   source = "./modules/BigQuery"
   project_id = var.project_id
-  job_glassnode = "job_load_tablAZ227sdfgA"
-  job_tweets = "job_load_table_64Aqsdfg"
-  job_prices = "job_load_table_62Zmq"
+  job_glassnode = "job_load_table_glassnode_metrics"
+  job_tweets = "job_load_table_tweets"
+  job_prices = "job_load_table_price"
 }
 
 module "dataflow" {
@@ -40,10 +40,9 @@ module "dataflow" {
   job_name = "job_load_data"
 }
 
-# module "gke" {
-#   source = "./modules/GKE"
-#   service_account = var.service_account
-#   zone_id = var.zone_id
-#   cluster_name = "cluster-pa5"
-# }
-
+module "gke" {
+  source = "./modules/GKE"
+  service_account = var.service_account
+  zone_id = var.zone_id
+  cluster_name = "cluster-pa5"
+}

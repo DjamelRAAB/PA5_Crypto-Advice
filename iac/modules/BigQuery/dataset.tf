@@ -76,8 +76,8 @@ resource "google_bigquery_table" "tabletweets" {
 EOF
 }
 
-resource "google_bigquery_job" "jobtweets" {
-  job_id = var.job_tweets
+resource "google_bigquery_job" "jobtweetsjson" {
+  job_id = "${var.job_tweets}_json"
   location = var.location
 
   labels = {
@@ -86,8 +86,9 @@ resource "google_bigquery_job" "jobtweets" {
 
   load {
     source_uris = [
-      "gs://pa5bucket/tweets/historical-tweets.csv",
+      "gs://pa5bucket/tweets/historical_tweets.json",
     ]
+    source_format = "NEWLINE_DELIMITED_JSON"
 
     destination_table {
       project_id = google_bigquery_table.tabletweets.project
@@ -95,14 +96,12 @@ resource "google_bigquery_job" "jobtweets" {
       table_id   = google_bigquery_table.tabletweets.table_id
     }
 
-    skip_leading_rows = 1
     schema_update_options = ["ALLOW_FIELD_RELAXATION", "ALLOW_FIELD_ADDITION"]
 
     write_disposition = "WRITE_APPEND"
     autodetect = false
   }
 }
-
 
 resource "google_bigquery_table" "tableprices" {
   deletion_protection = false
@@ -136,9 +135,9 @@ resource "google_bigquery_job" "jobprices" {
     ]
 
     destination_table {
-      project_id = google_bigquery_table.tabletweets.project
-      dataset_id = google_bigquery_table.tabletweets.dataset_id
-      table_id   = google_bigquery_table.tabletweets.table_id
+      project_id = google_bigquery_table.tableprices.project
+      dataset_id = google_bigquery_table.tableprices.dataset_id
+      table_id   = google_bigquery_table.tableprices.table_id
     }
 
     skip_leading_rows = 1
@@ -148,3 +147,31 @@ resource "google_bigquery_job" "jobprices" {
     autodetect = false
   }
 }
+
+resource "google_bigquery_table" "tablepredictprices" {
+  deletion_protection = false
+  dataset_id = google_bigquery_dataset.dataset.dataset_id
+  table_id = "${var.table_prices}_predicted"
+  schema = <<EOF
+  [
+    {"name":"time","type":"TIMESTAMP","mode":"NULLABLE"},
+    {"name":"price","type":"FLOAT","mode":"NULLABLE"},
+    {"name":"coin","type":"STRING","mode":"NULLABLE"}
+  ]
+EOF
+}
+
+resource "google_bigquery_table" "tablefeedback" {
+  deletion_protection = false
+  dataset_id = google_bigquery_dataset.dataset.dataset_id
+  table_id = "feed_back"
+  schema = <<EOF
+  [
+    {"name":"price","type":"STRING","mode":"NULLABLE"},
+    {"name":"sentiment","type":"STRING","mode":"NULLABLE"},
+    {"name":"message","type":"STRING","mode":"NULLABLE"}
+  ]
+EOF
+}
+
+

@@ -1,4 +1,4 @@
 
-#output "azurerm_app_service_Backend_name" {
-#  value = azurerm_app_service.Backend.name
+#output "google_container_cluster_name" {
+#  value = google_container_cluster.primary.name
 #}

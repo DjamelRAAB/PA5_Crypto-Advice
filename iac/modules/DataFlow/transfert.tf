@@ -39,8 +39,8 @@ resource "google_dataflow_job" "pubsub_stream_metrics" {
     template_gcs_path = var.tmplate_path
     temp_gcs_location = var.tmp_location
     enable_streaming_engine = true
-    region = "europe-west3"
-    zone = "europe-west3-b"
+    region = "europe-west2"
+    zone = "europe-west2-b"
     transform_name_mapping = {
         name = "metrics_processing_job"
         env = "prod"
