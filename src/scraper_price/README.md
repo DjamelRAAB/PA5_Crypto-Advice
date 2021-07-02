@@ -1,5 +1,5 @@
 # CryptoAdvice API 
-Ce job a pour but de recolte les donnée de prix sur les marche crypto et conterisation et publication de l'image dans la registry GCP du PA5. 
+Ce job a pour but de recolte les donnée de prix sur les marche crypto. 
 
 ## Commandes
 1. Run de l'api en local : 
