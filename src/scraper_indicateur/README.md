@@ -1,5 +1,5 @@
 # CryptoAdvice API 
-ce job a pour bute de collecter les donnée a partir de l'api glassnode et de la conterisation et publication de l'image dans la registry GCP du PA5. 
+ce job a pour bute de collecter les donnée a partir de l'api glassnode. 
 
 ## Commandes
 1. Run de l'api en local : 
