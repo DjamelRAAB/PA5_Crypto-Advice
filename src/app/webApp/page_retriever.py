@@ -16,9 +16,9 @@ import base64
 
 import dash_bootstrap_components as dbc
 import dash_html_components as html
-from src.webApp.pages import home, profil, news, userguide, trade, feedBack
-from src.webApp import global_variables as gv
-from src.webApp import global_components as gc
+from pages import home, profil, news, userguide, trade, feedBack
+import global_variables as gv
+import global_components as gc
 
 
 APP_PAGES = {
@@ -31,7 +31,7 @@ APP_PAGES = {
         'URL': '/' + gv.NAME_APPLICATION + '/profil',
         'Content': profil.build_page()},
     'page2': {
-        'Label': 'Trade',
+        'Label': 'Trade board',
         'URL': '/' + gv.NAME_APPLICATION + '/trade',
         'Content': trade.build_page()},
     "Reporting": {
@@ -57,7 +57,7 @@ PAGES_URLS = [APP_PAGES[page]['URL'] for page in APP_PAGES]
 
 
 def build_page_not_found(height: int = 1000, width: int = 1000):
-    image_path = os.path.join('src', 'webApp', 'images', 'page_not_found.jpg')
+    image_path = os.path.join('webApp', 'images', 'page_not_found.jpg')
     image_encoded = base64.b64encode(open(image_path, 'rb').read())
 
     not_found = html.Img(src='data:image/png;base64,{}'.format(image_encoded.decode()),
@@ -83,7 +83,7 @@ def get_page_menu():
 
 
 def build_Footer(height: int=100, width: int=240):
-    logo_path = os.path.join('src', 'webApp', 'images', 'crypto_advice.png')
+    logo_path = os.path.join('webApp', 'images', 'crypto_advice.png')
 
     footer = html.Footer(children=[
         gc.get_image(logo_path, height, width),
@@ -129,7 +129,7 @@ def build_subfooter():
                 # Contact part
                 html.P([html.U('Contacts'), ' :'], style={'font-size': '1rem'}),
                 build_contact_section([
-                    {'name': 'Charles David WAJENBERG ', 'email': 'cwajnberg@myges.fr', 'desc': 'Project Owner'},
+                    {'name': 'Charles David WAJENBERG ', 'email': 'cwajnberg@myges.fr', 'desc': 'Product Owner'},
                     {'name': 'Jugurtha BOUHADOUN', 'email': 'jbouhadoun@gmail.com ', 'desc': 'Data Scientist'},
                     {'name': 'Djamel RAAB', 'email': 'djamel.r.75@gmail.com', 'desc': 'Data Engineer'},
                     {'name': 'Anis BAAR', 'email': 'mohamed.anis.barr@gmail.com', 'desc': 'Data Engineer'},

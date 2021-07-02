@@ -21,8 +21,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 from app import app
-from src.webApp import page_retriever as pr
-from src.webApp import global_variables as gv
+import page_retriever as pr
+import global_variables as gv
 from datetime import datetime
 
 content = html.Div(id="page-content", style=gv.CONTENT_STYLE)
@@ -66,7 +66,7 @@ def render_page_content(pathname: str):
 
 
 # Add route to monitor availability of the app
-@app.server.route('/' + gv.NAME_APPLICATION + '/monitoring')
+@app.server.route('/')
 def ping():
     # current date and time
     now = datetime.now()
@@ -78,4 +78,4 @@ def ping():
 
 
 if __name__ == "__main__":
-    app.run_server(port=8050, debug=True)
+    app.run_server(host='0.0.0.0', port=5000, debug=True)

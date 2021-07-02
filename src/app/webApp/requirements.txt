@@ -17,3 +17,7 @@ Flask-Compress
 json5
 jsonschema
 numpydoc
+croniter
+google-cloud-bigquery[bqstorage,pandas]
+mysql-connector-python
+configparser

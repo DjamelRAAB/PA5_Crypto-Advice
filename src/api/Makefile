@@ -24,10 +24,10 @@ activate: venv
 
 install: activate
 	- mkdir -p $(CURRENT_PATH)/logs
-	$(BIN)pip install -r $(CURRENT_PATH)/app/requirements.txt
+	$(BIN)pip install -r $(CURRENT_PATH)/webApi/requirements.txt
 
 run : install
-	$(BIN)uvicorn api:app --reload --app-dir app
+	$(BIN)uvicorn api:webApi --reload --app-dir webApi
 
 build:
 	docker build --rm=true -t $(DOCKER_REGISTRY)/$(IMAGE):$(TAG) .

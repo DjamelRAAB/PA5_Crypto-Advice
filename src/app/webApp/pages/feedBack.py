@@ -5,6 +5,19 @@ from app import app
 import dash
 from global_variables import style_H1, style_H2, style_b1, style_span
 from flask import request
+from google.cloud import bigquery
+import google.auth
+
+
+# Explicitly create a credentials object. This allows you to use the same
+# credentials for both the BigQuery and BigQuery Storage clients, avoiding
+# unnecessary API calls to fetch duplicate authentication tokens.
+credentials, your_project_id = google.auth.default(
+    scopes=["https://www.googleapis.com/auth/cloud-platform"]
+)
+
+# Make clients.
+BQ_CLIENT = bigquery.Client(credentials=credentials, project=your_project_id,)
 
 
 def build_page():
@@ -15,8 +28,8 @@ def build_page():
         style={'padding': '20px'})
 
 
-questions = ["Première question ? ",
-             "Deuxième question ?",
+questions = ["La prediction du prix de la crypto monaie vous a elle convaincu ? ",
+             "L'évaluation du sentiment sur les tweets vous a elle convaincu ?",
              "Qu'est-ce qu'on peut améliorer ?"]
 choices_answer = ["Très bien", "Bien", "Médiocre"]
 
@@ -74,13 +87,13 @@ def item2_feedback():
     def send_feedback(clicks, answer_0, answer_1, answer_2):
         if clicks == 0:
             return None
-        log_feedback = {
-            'NNI': request.headers["Oidc-Claim-Sub"],
-            questions[0]: answer_0,
-            questions[1]: answer_1,
-            questions[2]: answer_2}
-
-        print(log_feedback)
+        global BQ_CLIENT
+        query_string = f"""
+        INSERT INTO pa5-crypto-advice2.pa5_dataset.feed_back (price, sentiment, message)
+        VALUES ('{answer_0}', '{answer_1}', '{answer_2}')
+        """
+        BQ_CLIENT.query(query_string).result()
+            
         return "Crypto-Advice vous mercie pour votre feedback !"
 
     return item

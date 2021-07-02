@@ -56,7 +56,7 @@ DEFAULT_LAYOUT = {}
 
 #
 
-NAME_APPLICATION =  'crypto-advice' 
+NAME_APPLICATION =  'cryptoadvice' 
 # if socket.gethostname() == "dceyy21e":
 #     NAME_APPLICATION = "dash-template"
 # else:

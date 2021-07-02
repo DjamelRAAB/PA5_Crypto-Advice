@@ -12,12 +12,12 @@ in several scripts, that's why we initiate it in a separete script.
 
 import dash
 
-from src.webApp import global_variables as gv
+import global_variables as gv
 
 app = dash.Dash(
     external_stylesheets=[
-        './src/webapp/assets/s1.css',
-        './src/webapp/assets/styles.css',
+        './webapp/assets/s1.css',
+        './webapp/assets/styles.css',
         gv.APP_THEME],
     routes_pathname_prefix= '/' + gv.NAME_APPLICATION + '/')
 server = app.server
