@@ -4,22 +4,24 @@ The topic of our 5th grade project is about crypto-currencies. The goal of this 
 ___
 
 
-## Data (cryptocompare API)
-In this project we will be calling cryptocompare.com API to get Bitcoin, Ethereum (or any cryptocurrency) historical price data and real-time price. The API serves the data in JSON format and the actual useful payload is in an array of dictionaries. 
-We will provide tools to visualize the historical cryptocurrency price data via python library, and we will use that historical data for time series analysis, price alarming script and even for creation of trading bot.
+## CryptoAdvice API
+In this project the API serves the data in JSON format and the actual useful payload is in an array of dictionaries. 
+The response of our api can be used for time series analysis, price alarming script and even for creation of trading bot.
 
 ### Call the API to get data
-How to call the cryptocompare.com API? 
+How to call our API? 
 
-* The API call consists of two parts,
+* The API call consists of three parts,
     * First is baseurl :
-        * Historical data : https://min-api.cryptocompare.com/data/v2/histo{$frequence day\hour\minute}
-        * Real time data : https://min-api.cryptocompare.com/data/price
-    * Second are parameters that we provide for the call : fsym=BTC&tsyms=USD
+        * http://cryptoadvice.com/
+    * Second are the route :
+        * /prediction/price
+        * /prediction/sentiment
+        * /tweets
+        * /metrics    
+    * Final part are the parameters that we provide for the call to choose the coin, for example: 
+        * coin=BTC
 
-1. Using requests package, example full API call for real time data : https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD
-
-2. Useing function provided by cruptocompare package such as `cryptocompare.get_price('BTC', currency='USD', full=True)
-`
+## CryptoAdvice APP
 
 ___
