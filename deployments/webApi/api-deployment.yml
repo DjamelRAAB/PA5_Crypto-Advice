@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: api
+  template:
+    metadata:
+      labels:
+        run: api
+    spec:
+      containers:
+      - image: gcr.io/pa5-crypto-advice2/cryptoadvice-api:latest
+        imagePullPolicy: IfNotPresent
+        name: api
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+          - mountPath: /conf
+            name: confs
+            readOnly: true 
+          - mountPath: /tmp
+            name: cache-volume
+      volumes:
+      - name: cache-volume
+        emptyDir: {}
+      - name: confs
+        projected:
+          sources:
+          - secret:
+              name: gcp-key

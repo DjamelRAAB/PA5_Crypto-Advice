@@ -1,3 +1,27 @@
+# Terraform bin and log
+**iac/.terraform/**
+**.tfstate**
+**key-file** 
+
+# Log repo 
+*logs*
+
+# Service account credentials
+*key-file*
+
+
+# Assets files 
+*dates_records*
+
+# Vscode files
+*.vscode*
+
+# Parquet files
+*.parquet*
+
+# Python venv
+*.venv*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
