@@ -149,6 +149,7 @@ def build_page():
                 .to_dataframe(bqstorage_client=BQ_STORAGE_CLIENT)
             )
             fig_series.add_trace(go.Scatter(x=df_predicted_data.time, y=df_predicted_data.price, mode='lines',name='Predicted price'))  
+        
         fig_series.update_layout(
             title=f"{cryptocurrency} price from {exchange}",
             xaxis_title="Time",
@@ -212,6 +213,7 @@ def build_page():
         SELECT DISTINCT time, avg(sentiment_analysis) as sentiment
         FROM `pa5-crypto-advice2.pa5_dataset.coin_tweets`
         WHERE coin = '{cryptocurrency}'
+        AND sentiment_analysis != 0.0
         GROUP BY time
         ORDER BY time DESC
         LIMIT 250;
@@ -223,9 +225,10 @@ def build_page():
         )
         df_trad_data.time = pd.to_datetime(df_trad_data.time, unit='s')
         df_trad_data.sentiment = df_trad_data.sentiment * 100
+        df_trad_data.sentiment = df_trad_data.sentiment - 10
 
         fig_sentiment = px.line(df_trad_data, x='time', y='sentiment')
-        fig_sentiment.add_bar(x=df_trad_data.time, y=df_trad_data.sentiment)
+        fig_sentiment.add_bar(x=df_trad_data.time, y=df_trad_data.sentiment,name='')
 
         fig_sentiment.update_layout(
             title=f"{cryptocurrency} Sentiment",

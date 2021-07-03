@@ -9,7 +9,7 @@ import os
 def init() :
 
     config = configparser.ConfigParser()
-    config.read('./conf/config.ini')
+    config.read('/conf/config.ini')
     logger = logging.getLogger()
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s-%(levelname)s-[%(message)s]')

@@ -2,7 +2,7 @@ CURRENT_PATH := $(shell pwd)
 SHELL := /bin/bash
 VENV := .venv
 BIN=$(CURRENT_PATH)/$(VENV)/bin/
-IMAGE := cryptoadvice-scrapper
+IMAGE := cryptoadvice-scrapper-tweets
 REL := 0.0.1
 IMAGE_VERSION := 3.8.1
 TAG := $(REL)
@@ -10,7 +10,7 @@ DOCKER_REGISTRY := localhost
 PA5_REGISTRY := gcr.io/pa5-crypto-advice2
 IMAGE_VERSION := latest
 FROM_IMAGE := $(IMAGE):$(IMAGE_VERSION)
-APPLICATION_NAME := cryptoadvice-scrapper
+APPLICATION_NAME := cryptoadvice-scrapper-tweets
 API_PATH := cryptoadvice/api #unused 
 PORT := 5000
 

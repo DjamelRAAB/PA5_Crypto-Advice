@@ -15,7 +15,11 @@ from dash.dependencies import Input, Output
 def get_tweets(coin):
     client = bigquery.Client()
     QUERY = (
-        f"SELECT UrlTweet,sentiment_analysis FROM `pa5-crypto-advice2.pa5_dataset.coin_tweets` where coin='{coin}' LIMIT 20"
+        f"""SELECT UrlTweet,sentiment_analysis 
+        FROM `pa5-crypto-advice2.pa5_dataset.coin_tweets` 
+        WHERE coin='{coin}' 
+        ORDER BY time DESC
+        LIMIT 20"""
     )  
     query_job = client.query(QUERY).result().to_dataframe()
     return query_job

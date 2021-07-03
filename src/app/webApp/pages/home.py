@@ -150,7 +150,7 @@ def build_page():
         if pathname == '/' + gv.NAME_APPLICATION + '/':
             dt = datetime.now()
             dt_string = dt.strftime("%d/%m/%Y %H:%M:%S")
-            user = 'C48679'  # request.headers["Oidc-Claim-Sub"]
+            user = request.headers["Host"]
             with open(PATH_LAST_CO, 'r', encoding='utf-8') as track_file:
                 last_co = json.load(track_file)
                 if user in last_co.keys():
