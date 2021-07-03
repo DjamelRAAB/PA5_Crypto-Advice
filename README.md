@@ -1,8 +1,6 @@
 # 5th year project
 ## Application name : Crypto-Advice 
 The topic of our 5th grade project is about crypto-currencies. The goal of this project is to extract information from historical crypto-currency data to provide advice to users based on the real-time price of crypto-currencies.
-___
-
 
 ## CryptoAdvice API
 In this project the API serves the data in JSON format and the actual useful payload is in an array of dictionaries. 
@@ -27,5 +25,3 @@ How to call our API?
 ## CryptoAdvice APP
 
 The application it's exposed at this url : http://34.149.251.226/cryptoadvice/ 
-
-___
