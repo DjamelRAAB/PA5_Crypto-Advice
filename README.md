@@ -9,7 +9,7 @@ In this project the API serves the data in JSON format and the actual useful pay
 The response of our api can be used for time series analysis, price alarming script and even for creation of trading bot.
 
 ### Call the API to get data
-You can see the doc of this API in http://cryptoadvice.com/api/doc
+You can see the doc of this API in http://34.149.251.226/cryptoadvice/api/
 
 How to call our API? 
 
@@ -25,5 +25,7 @@ How to call our API?
         * coin=BTC
 
 ## CryptoAdvice APP
+
+The application it's exposed at this url : http://34.149.251.226/cryptoadvice/ 
 
 ___
