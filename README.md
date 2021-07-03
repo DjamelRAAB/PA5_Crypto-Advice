@@ -13,7 +13,7 @@ How to call our API?
 
 * The API call consists of three parts,
     * First is baseurl :
-        * http://cryptoadvice.com/api
+        * http://34.149.251.226/cryptoadvice/
     * Second are the route :
         * /prediction/price
         * /prediction/sentiment
