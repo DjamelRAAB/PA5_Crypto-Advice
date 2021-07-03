@@ -43,7 +43,7 @@ APP_PAGES = {
         'URL': '/' + gv.NAME_APPLICATION + '/feedback',
         'Content': feedBack.build_page()},
     "userguide": {
-        'Label': "User guide",
+        'Label': "API guide",
         'URL': '/' + gv.NAME_APPLICATION + '/userguide',
         'Content': userguide.build_page()}
 }

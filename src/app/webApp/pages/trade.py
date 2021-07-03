@@ -5,7 +5,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output, State
 from dash import callback_context
 from app import app
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import request
 import json
 import global_variables as gv
@@ -49,9 +49,9 @@ def init_historical_data(cryptocurrency, currency, exchange, duration):
 
 # Default values 
 EXCHANGE = 'Binance'
-CRYPTOCURRENCY = 'BTC'
+CRYPTOCURRENCY = 'ETH'
 CURRENCY = 'USDT'
-DURATION = 'minute'
+DURATION = 'day'
 
 # Explicitly create a credentials object. This allows you to use the same
 # credentials for both the BigQuery and BigQuery Storage clients, avoiding
@@ -113,9 +113,10 @@ def build_page():
         State('exchange-dropdown', 'value'),
         State('duration-radioitem', 'value'))
     def update_graphs(n_intervals, n_clicks, cryptocurrency, currency, exchange, duration):
-
+        global BQ_CLIENT, BQ_STORAGE_CLIENT
+        
         to_timestamp = datetime.now()
-        data = historical_function(duration)(cryptocurrency, currency, exchange=exchange, limit=500, toTs=to_timestamp)
+        data = historical_function(duration)(cryptocurrency, currency, exchange=exchange, limit=250, toTs=to_timestamp)
         df_trad_data =  pd.DataFrame.from_records(data)
         df_trad_data.time = df_trad_data.time.apply(lambda row : datetime.fromtimestamp(row))
 
@@ -132,8 +133,22 @@ def build_page():
         fig_candles.update_xaxes(rangeslider_visible=True)
 
         fig_series = go.Figure()
-        fig_series.add_trace(go.Scatter(x=df_trad_data.time[250:], y=df_trad_data[250:].close, mode='lines',name='Real price'))
-        fig_series.add_trace(go.Scatter(x=df_trad_data.time[250:], y=df_trad_data[:250].close, mode='lines',name='Predicted price'))  
+        fig_series.add_trace(go.Scatter(x=df_trad_data.time, y=df_trad_data.close, mode='lines',name='Real price'))
+        # Download query results.
+        if cryptocurrency  in ['BTC','ETH'] and duration == 'day':
+            query_string = f"""
+            SELECT DISTINCT time, price 
+            FROM `pa5-crypto-advice2.pa5_dataset.coin_prices_predicted`
+            WHERE coin = '{cryptocurrency}'
+            ORDER BY time DESC
+            LIMIT 250;
+            """
+            df_predicted_data = (
+                BQ_CLIENT.query(query_string)
+                .result()
+                .to_dataframe(bqstorage_client=BQ_STORAGE_CLIENT)
+            )
+            fig_series.add_trace(go.Scatter(x=df_predicted_data.time, y=df_predicted_data.price, mode='lines',name='Predicted price'))  
         fig_series.update_layout(
             title=f"{cryptocurrency} price from {exchange}",
             xaxis_title="Time",
@@ -161,7 +176,7 @@ def build_page():
         FROM `pa5-crypto-advice2.pa5_dataset.coin_glassnode_metrics`
         WHERE coin = '{cryptocurrency}'
         ORDER BY time DESC
-        LIMIT 500;
+        LIMIT 250;
         """
         df_trad_data = (
             BQ_CLIENT.query(query_string)
@@ -199,7 +214,7 @@ def build_page():
         WHERE coin = '{cryptocurrency}'
         GROUP BY time
         ORDER BY time DESC
-        LIMIT 500;
+        LIMIT 250;
         """
         df_trad_data = (
             BQ_CLIENT.query(query_string)
@@ -207,13 +222,17 @@ def build_page():
             .to_dataframe(bqstorage_client=BQ_STORAGE_CLIENT)
         )
         df_trad_data.time = pd.to_datetime(df_trad_data.time, unit='s')
+        df_trad_data.sentiment = df_trad_data.sentiment * 100
 
         fig_sentiment = px.line(df_trad_data, x='time', y='sentiment')
+        fig_sentiment.add_bar(x=df_trad_data.time, y=df_trad_data.sentiment)
+
         fig_sentiment.update_layout(
             title=f"{cryptocurrency} Sentiment",
             xaxis_title="Time",
-            yaxis_title="Sentiment"
+            yaxis_title="Price variation %"
         )
+
         fig_sentiment.update_layout(xaxis_rangeslider_visible=True)
         fig_sentiment.update_xaxes(rangeslider_visible=True)
 
@@ -221,46 +240,6 @@ def build_page():
             dcc.Graph(id='graph-sentiment',
             figure=fig_sentiment)
             ]
-
-
-    # @app.callback(
-    #     Output('update-graph-sentiment', 'children'),
-    #     Input('submit-button-state', 'n_clicks'),
-    #     State('coins-dropdown', 'value'))
-    # def update_sentiment( n_clicks, cryptocurrency):
-    #     global BQ_CLIENT, BQ_STORAGE_CLIENT
-    #     # Download query results.
-    #     if cryptocurrency not in ['BTC','ETH']:
-    #         return html.Div(id="update-graph-sentiment",children=[]) 
-    #     query_string = f"""
-    #     SELECT DISTINCT time, avg(sentiment_analysis) as sentiment
-    #     FROM `pa5-crypto-advice2.pa5_dataset.coin_tweets`
-    #     WHERE coin = '{cryptocurrency}'
-    #     GROUP BY time
-    #     ORDER BY time DESC
-    #     LIMIT 500;
-    #     """
-    #     df_trad_data = (
-    #         BQ_CLIENT.query(query_string)
-    #         .result()
-    #         .to_dataframe(bqstorage_client=BQ_STORAGE_CLIENT)
-    #     )
-    #     df_trad_data.time = pd.to_datetime(df_trad_data.time, unit='s')
-
-    #     fig_sentiment = px.line(df_trad_data, x='time', y='sentiment')
-    #     fig_sentiment.update_layout(
-    #         title=f"{cryptocurrency} Sentiment",
-    #         xaxis_title="Time",
-    #         yaxis_title="Sentiment"
-    #     )
-    #     fig_sentiment.update_layout(xaxis_rangeslider_visible=True)
-    #     fig_sentiment.update_xaxes(rangeslider_visible=True)
-
-    #     return [
-    #         dcc.Graph(
-    #             id='graph-sentiment',
-    #             figure=fig_sentiment),
-    #         ]
     
     df_exchanges = pd.read_parquet('./data/exchanges-infos.parquet', columns=['InternalName','Name'])
     label_exchanges = [{'label': inname , 'value': name} for name, inname in zip(df_exchanges.InternalName,df_exchanges.Name)]
